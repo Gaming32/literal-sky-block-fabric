@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.github.gaming32.literalskyblock.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+  ],
+  "client": [
+    "client.LevelRendererMixin",
+    "client.MixinGameRenderer",
+    "client.MixinShaderInstance"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
