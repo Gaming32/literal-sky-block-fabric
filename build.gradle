@@ -11,6 +11,17 @@ repositories {
     maven {
         url = "https://maven.quiltmc.org/repository/release"
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 dependencies {
@@ -21,6 +32,8 @@ dependencies {
         officialMojangMappings()
     }
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    modCompileOnly("maven.modrinth:iris:1.18.x-v1.4.5")
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"

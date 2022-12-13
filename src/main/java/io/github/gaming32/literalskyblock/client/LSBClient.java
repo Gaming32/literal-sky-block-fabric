@@ -16,6 +16,7 @@ import io.github.gaming32.literalskyblock.forge.RenderLevelLastEvent;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Camera;
 import net.minecraft.client.CloudStatus;
 import net.minecraft.client.Minecraft;
@@ -38,6 +39,7 @@ public class LSBClient implements ClientModInitializer {
     private static TextureTarget skyRenderTarget;
     public static boolean updateSky = false;
     private static boolean isRenderingSky = false;
+    private static boolean needIrisCompat;
 
     public static ShaderInstance getSkyShader() {
         return skyShader;
@@ -88,6 +90,7 @@ public class LSBClient implements ClientModInitializer {
             skyRenderTarget = new TextureTarget(skyWidth, skyHeight, true, Minecraft.ON_OSX);
         }
 
+        if (needIrisCompat) IrisCompat.preRender(mc.levelRenderer);
         mc.gameRenderer.setRenderBlockOutline(false);
         mc.levelRenderer.graphicsChanged();
         skyRenderTarget.bindWrite(true);
@@ -102,6 +105,7 @@ public class LSBClient implements ClientModInitializer {
         skyRenderTarget.unbindWrite();
         mc.levelRenderer.graphicsChanged();
         mainRenderTarget.bindWrite(true);
+        if (needIrisCompat) IrisCompat.postRender(mc.levelRenderer);
     }
 
     public static void renderActualSky(Minecraft mc, RenderLevelLastEvent event) {
@@ -121,7 +125,6 @@ public class LSBClient implements ClientModInitializer {
         RenderSystem.clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
         final float renderDistance = gameRenderer.getRenderDistance();
         final boolean hasSpecialFog = mc.level.effects().isFoggyAt(Mth.floor(cameraPos.x), Mth.floor(cameraPos.y)) || mc.gui.getBossOverlay().shouldCreateWorldFog();
-        FogRenderer.setupFog(camera, FogRenderer.FogMode.FOG_SKY, renderDistance, hasSpecialFog);
         RenderSystem.setShader(GameRenderer::getPositionShader);
         levelRenderer.renderSky(poseStack, projectionMatrix, delta, camera, false, () -> FogRenderer.setupFog(camera, FogRenderer.FogMode.FOG_SKY, renderDistance, hasSpecialFog));
 
@@ -138,8 +141,8 @@ public class LSBClient implements ClientModInitializer {
 
         RenderSystem.depthMask(false);
         levelRendererLSB.renderSnowAndRainLSB(lightTexture, delta, cameraPos.x, cameraPos.y, cameraPos.z);
-
         RenderSystem.depthMask(true);
+
         RenderSystem.disableBlend();
         modelViewStack.popPose();
         RenderSystem.applyModelViewMatrix();
@@ -148,6 +151,7 @@ public class LSBClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        needIrisCompat = FabricLoader.getInstance().isModLoaded("iris");
         BlockEntityRenderers.register(LSBBlockEntities.SKY_BLOCK, SkyBlockEntityRenderer::new);
         BlockEntityRenderers.register(LSBBlockEntities.VOID_BLOCK, SkyBlockEntityRenderer::new);
     }
