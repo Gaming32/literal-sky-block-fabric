@@ -39,7 +39,7 @@ public class LSBClient implements ClientModInitializer {
     private static TextureTarget skyRenderTarget;
     public static boolean updateSky = false;
     private static boolean isRenderingSky = false;
-    private static boolean needIrisCompat;
+    static boolean needIrisCompat;
 
     public static ShaderInstance getSkyShader() {
         return skyShader;
@@ -90,6 +90,14 @@ public class LSBClient implements ClientModInitializer {
             skyRenderTarget = new TextureTarget(skyWidth, skyHeight, true, Minecraft.ON_OSX);
         }
 
+        if (needIrisCompat && IrisCompat.shadersEnabled()) {
+//            skyRenderTarget.bindWrite(true);
+//            skyRenderTarget.setClearColor(1f, 1f, 1f, 1f);
+//            skyRenderTarget.clear(Minecraft.ON_OSX);
+//            skyRenderTarget.unbindRead();
+//            mc.getMainRenderTarget().bindWrite(true);
+            return;
+        }
         if (needIrisCompat) IrisCompat.preRender(mc.levelRenderer);
         mc.gameRenderer.setRenderBlockOutline(false);
         mc.levelRenderer.graphicsChanged();

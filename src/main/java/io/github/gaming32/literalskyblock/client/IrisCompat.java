@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import net.coderbot.iris.Iris;
 import net.coderbot.iris.pipeline.WorldRenderingPhase;
 import net.coderbot.iris.pipeline.WorldRenderingPipeline;
+import net.irisshaders.iris.api.v0.IrisApi;
 import net.minecraft.client.renderer.LevelRenderer;
 import org.slf4j.Logger;
 
@@ -52,5 +53,9 @@ class IrisCompat {
         } catch (ReflectiveOperationException e) {
             LOGGER.error("Exception in postRender", e);
         }
+    }
+
+    static boolean shadersEnabled() {
+        return IrisApi.getInstance().isShaderPackInUse();
     }
 }
