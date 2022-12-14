@@ -12,10 +12,11 @@ import io.github.gaming32.literalskyblock.LSBBlockEntities;
 import io.github.gaming32.literalskyblock.LiteralSkyBlock;
 import io.github.gaming32.literalskyblock.forge.HackShaderInstanceResourceLocation;
 import io.github.gaming32.literalskyblock.forge.RegisterShadersEvent;
-import io.github.gaming32.literalskyblock.forge.RenderLevelLastEvent;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Camera;
 import net.minecraft.client.CloudStatus;
@@ -64,7 +65,7 @@ public class LSBClient implements ClientModInitializer {
         .createCompositeState(false)
     );
 
-    public static void renderSky(RenderLevelLastEvent event) {
+    public static void renderSky(WorldRenderContext event) {
         if (isRenderingSky) return;
 
         final Minecraft mc = Minecraft.getInstance();
@@ -91,11 +92,6 @@ public class LSBClient implements ClientModInitializer {
         }
 
         if (needIrisCompat && IrisCompat.shadersEnabled()) {
-//            skyRenderTarget.bindWrite(true);
-//            skyRenderTarget.setClearColor(1f, 1f, 1f, 1f);
-//            skyRenderTarget.clear(Minecraft.ON_OSX);
-//            skyRenderTarget.unbindRead();
-//            mc.getMainRenderTarget().bindWrite(true);
             return;
         }
         if (needIrisCompat) IrisCompat.preRender(mc.levelRenderer);
@@ -116,9 +112,9 @@ public class LSBClient implements ClientModInitializer {
         if (needIrisCompat) IrisCompat.postRender(mc.levelRenderer);
     }
 
-    public static void renderActualSky(Minecraft mc, RenderLevelLastEvent event) {
-        final PoseStack poseStack = event.poseStack();
-        final float delta = event.partialTick();
+    public static void renderActualSky(Minecraft mc, WorldRenderContext event) {
+        final PoseStack poseStack = event.matrixStack();
+        final float delta = event.tickDelta();
         final Matrix4f projectionMatrix = event.projectionMatrix();
         final LevelRenderer levelRenderer = mc.levelRenderer;
         final LevelRendererLSB levelRendererLSB = (LevelRendererLSB)levelRenderer;
@@ -160,6 +156,7 @@ public class LSBClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         needIrisCompat = FabricLoader.getInstance().isModLoaded("iris");
+        WorldRenderEvents.END.register(LSBClient::renderSky);
         BlockEntityRenderers.register(LSBBlockEntities.SKY_BLOCK, SkyBlockEntityRenderer::new);
         BlockEntityRenderers.register(LSBBlockEntities.VOID_BLOCK, SkyBlockEntityRenderer::new);
     }
