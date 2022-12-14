@@ -17,6 +17,11 @@ public class LSBItems {
         new ResourceLocation(LiteralSkyBlock.MOD_ID, "void_block"),
         new BlockItem(LSBBlocks.VOID_BLOCK, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS))
     );
+    public static final Item VANTA_BLACK = Registry.register(
+        Registry.ITEM,
+        new ResourceLocation(LiteralSkyBlock.MOD_ID, "vanta_black"),
+        new BlockItem(LSBBlocks.VANTA_BLACK, new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS))
+    );
 
     static void register() {
     }

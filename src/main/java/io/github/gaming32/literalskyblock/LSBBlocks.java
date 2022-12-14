@@ -27,6 +27,13 @@ public class LSBBlocks {
             BlockBehaviour.Properties.copy(Blocks.STONE)
         )
     );
+    public static final Block VANTA_BLACK = Registry.register(
+        Registry.BLOCK,
+        new ResourceLocation(LiteralSkyBlock.MOD_ID, "vanta_black"),
+        new Block(
+            BlockBehaviour.Properties.copy(Blocks.STONE)
+        )
+    );
 
     static void register() {
     }
