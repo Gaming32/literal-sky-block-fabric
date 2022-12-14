@@ -17,6 +17,7 @@ public class LSBBlocks {
                 .isRedstoneConductor((blockState, blockGetter, blockPos) -> false)
                 .isSuffocating((blockState, blockGetter, blockPos) -> false)
                 .isViewBlocking((blockState, blockGetter, blockPos) -> false)
+                .lightLevel(state -> 15)
         )
     );
     public static final Block VOID_BLOCK = Registry.register(
