@@ -6,6 +6,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class VoidBlock extends SkyBlock {
+    public VoidBlock(Properties properties) {
+        super(properties);
+    }
+
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {

@@ -2,19 +2,19 @@ package io.github.gaming32.literalskyblock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class SkyBlock extends BaseEntityBlock {
-    public SkyBlock() {
-        super(Properties.copy(Blocks.STONE));
+    public SkyBlock(Properties properties) {
+        super(properties);
     }
 
     @Nullable
@@ -46,5 +46,10 @@ public class SkyBlock extends BaseEntityBlock {
         if (blockEntity instanceof SkyBlockEntity skyBlockEntity) {
             skyBlockEntity.neighborChanged();
         }
+    }
+
+    @Override
+    public boolean propagatesSkylightDown(BlockState state, BlockGetter world, BlockPos pos) {
+        return !(this instanceof VoidBlock) || super.propagatesSkylightDown(state, world, pos);
     }
 }
