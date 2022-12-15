@@ -12,11 +12,9 @@ public class LSBBlocks {
         new ResourceLocation(LiteralSkyBlock.MOD_ID, "sky_block"),
         new SkyBlock(
             BlockBehaviour.Properties.copy(Blocks.STONE)
-                .noOcclusion()
                 .isValidSpawn((blockState, blockGetter, blockPos, object) -> false)
                 .isRedstoneConductor((blockState, blockGetter, blockPos) -> false)
                 .isSuffocating((blockState, blockGetter, blockPos) -> false)
-                .isViewBlocking((blockState, blockGetter, blockPos) -> false)
                 .lightLevel(state -> 15)
         )
     );
