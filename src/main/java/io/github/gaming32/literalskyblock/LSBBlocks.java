@@ -15,7 +15,7 @@ public class LSBBlocks {
                 .isValidSpawn((blockState, blockGetter, blockPos, object) -> false)
                 .isRedstoneConductor((blockState, blockGetter, blockPos) -> false)
                 .isSuffocating((blockState, blockGetter, blockPos) -> false)
-                .lightLevel(state -> 15)
+                .lightLevel(state -> state.getValue(SkyBlock.ACTIVE) ? 15 : 0)
         )
     );
     public static final Block VOID_BLOCK = Registry.register(

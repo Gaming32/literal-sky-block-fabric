@@ -3,6 +3,7 @@ package io.github.gaming32.literalskyblock.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix4f;
+import io.github.gaming32.literalskyblock.SkyBlock;
 import io.github.gaming32.literalskyblock.SkyBlockEntity;
 import io.github.gaming32.literalskyblock.VoidBlockEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -17,6 +18,7 @@ public class SkyBlockEntityRenderer implements BlockEntityRenderer<SkyBlockEntit
 
     @Override
     public void render(SkyBlockEntity entity, float tickDelta, PoseStack poseStack, MultiBufferSource source, int light, int block) {
+        if (!entity.getBlockState().getValue(SkyBlock.ACTIVE)) return;
         final Matrix4f matrix4f = poseStack.last().pose();
         final boolean solid = LSBClient.needIrisCompat && IrisCompat.shadersEnabled();
         renderCube(entity, matrix4f, source.getBuffer(
