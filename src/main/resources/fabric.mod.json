@@ -7,7 +7,7 @@
   "authors": ["nanite", "Gaming32i"],
   "contact": {},
   "license": "LGPL-3.0",
-  "icon": "assets/literalskyblock/icon.png",
+  "icon": "assets/literalskyblock/textures/block/sky_block.png",
   "environment": "*",
   "entrypoints": {
     "client": [
