@@ -76,7 +76,19 @@ public class SkyBlock extends BaseEntityBlock {
 
     @Override
     public boolean propagatesSkylightDown(BlockState state, BlockGetter world, BlockPos pos) {
-        return !(this instanceof VoidBlock) || super.propagatesSkylightDown(state, world, pos);
+        if (this instanceof VoidBlock) {
+            return super.propagatesSkylightDown(state, world, pos);
+        }
+        return true;
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    public int getLightBlock(BlockState state, BlockGetter world, BlockPos pos) {
+        if (this instanceof VoidBlock) {
+            return super.getLightBlock(state, world, pos);
+        }
+        return 0;
     }
 
     @NotNull
