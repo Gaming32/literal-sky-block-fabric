@@ -130,7 +130,7 @@ public class LSBClient implements ClientModInitializer {
         final float renderDistance = gameRenderer.getRenderDistance();
         final boolean hasSpecialFog = mc.level.effects().isFoggyAt(Mth.floor(cameraPos.x), Mth.floor(cameraPos.y)) || mc.gui.getBossOverlay().shouldCreateWorldFog();
         RenderSystem.setShader(GameRenderer::getPositionShader);
-        levelRenderer.renderSky(poseStack, projectionMatrix, delta, camera, false, () -> FogRenderer.setupFog(camera, FogRenderer.FogMode.FOG_SKY, renderDistance, hasSpecialFog));
+        levelRenderer.renderSky(poseStack, projectionMatrix, delta, camera, false, () -> FogRenderer.setupFog(camera, FogRenderer.FogMode.FOG_SKY, renderDistance, hasSpecialFog, delta));
 
         final PoseStack modelViewStack = RenderSystem.getModelViewStack();
         modelViewStack.pushPose();
